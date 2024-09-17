@@ -75,17 +75,21 @@ void addItem(Bill &b)
             cin >> quantity;
             b.setQuantity(quantity);
 
-            ofstream out("C:\\Users\\kbhag\\Desktop\\movieapp\\oops project\\Bill.txt", ios::app); // Corrected file path
+            ofstream out("C:\\Users\\kbhag\\Desktop\\movieapp\\oops project\\Bill.txt", ios::app);
+            // to append the data on the file ow we loose the data
+            // assigning to the member varible
             if (!out)
             {
                 cout << "\tError: File Can't Open!" << endl;
             }
             else
             {
+                // for saving  to txt file
                 out << "\t" << b.getItem() << " : " << b.getRate() << " : " << b.getQuantity() << endl;
                 out.close();
                 cout << "\tItem added successfully." << endl;
                 Sleep(2000);
+                // screen should be displayed for 3 sec
             }
         }
         else if (choice == 2)
@@ -101,23 +105,74 @@ void addItem(Bill &b)
 void printBill()
 {
     system("cls");
-    ifstream in("C:\\Users\\kbhag\\Desktop\\movieapp\\oops project\\Bill.txt"); // Corrected file path
 
-    if (!in)
+    int count = 0;
+    bool close = false;
+    while (!close)
     {
-        cout << "\tError: File Can't Open!" << endl;
-    }
-    else
-    {
-        cout << "\t---- Bill Summary ----" << endl;
-        string line;
-        while (getline(in, line))
+        system("cls");
+
+        int choice;
+        cout << "\t1.ADD." << endl;
+        cout << "\t2.Close." << endl;
+        cout << "\tEnter Choice: ";
+        cin >> choice;
+
+        if (choice == 1)
         {
-            cout << line << endl;
+            string item;
+            int quant;
+            cout << "\t Enter item:";
+            cin >> item;
+            cout << "\t Enter Quantity";
+            cin >> quant;
+            ifstream in("C:\\Users\\kbhag\\Desktop\\movieapp\\oops project\\Bill.txt");
+            ofstream out("C:\\Users\\kbhag\\Desktop\\movieapp\\oops project\\temp.txt");
+
+            string line;
+            bool found = false;
+            while (getline(in, line))
+            {
+                stringstream ss;
+                ss << line;
+                string itemName;
+                int itemRate, itemQuant;
+                char delimiter;
+                ss >> itemName >> delimiter >> itemRate >> delimiter >> itemQuant;
+
+                if (item == itemName)
+                {
+                    found = true;
+                    if (quant == itemQuant)
+                    {
+                        int amt = itemRate * quant;
+                        cout << "\t Item | Rate | Quantity | Amount  " << endl;
+                        cout << "\t" << itemName << "\t" << itemRate << "\t" << amt << endl;
+                        int newQuant = itemQuant - quant;
+                        itemQuant = newQuant;
+                        count += amt;
+                        out << "\t" << itemName << " : " << itemRate << " : " << itemQuant << endl
+                            << endl;
+                    }
+                    else
+                    {
+                        cout << "\t Sorry " << item << "Ended" << endl;
+                    }
+                }
+                else
+                {
+                    out << line;
+                    // save the old data in the file
+                }
+            }
+            if (!found)
+            {
+                cout << "\t Item not Available" << endl;
+            }
+            out.close();
+            in.close();
         }
-        in.close();
     }
-    Sleep(3000);
 }
 
 int main()
@@ -128,6 +183,7 @@ int main()
     while (!exit)
     {
         system("cls");
+        // hide the previous output and shows the current output
         int choice;
 
         cout << "\t Welcome To Super Market Billing System" << endl;
@@ -140,7 +196,9 @@ int main()
 
         if (choice == 1)
         {
+            system("cls");
             addItem(b);
+            Sleep(2000);
         }
         else if (choice == 2)
         {
