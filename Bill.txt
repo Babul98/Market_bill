@@ -1,1 +1,5 @@
-	pen : 25 : 3
+Pen : 20 : 3
+	Coffee : 25 : 5
+	Soap : 20 : 50
+Notebook : 50 : 98
+	Milk : 30 : 50
