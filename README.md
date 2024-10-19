@@ -69,7 +69,7 @@ g++ -Wall -Wextra Market_billing.cpp -o Market_billing.exe
 ### Run the program:
 
 ```bash
-./billing_system
+./Market_billing.exe
 ```
 
 ## Future Enhancements
