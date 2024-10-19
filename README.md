@@ -56,15 +56,21 @@ A C++ compiler such as GCC or MinGW (for Windows).
 
 Clone the repository:
 
+```bash
 git clone https://github.com/yourusername/supermarket-billing-system.git
+```
 
 ### Compile the C++ program:
 
+```bash
 g++ -Wall -Wextra Market_billing.cpp -o Market_billing.exe
+```
 
 ### Run the program:
 
+```bash
 ./billing_system
+```
 
 ## Future Enhancements
 
