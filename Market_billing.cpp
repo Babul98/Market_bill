@@ -1,50 +1,35 @@
-#include <iostream>
-#include <fstream>
-#include <sstream>
-#include <windows.h>
-#include <limits>
+#include "Market_billing.h"
 
-using namespace std;
+void listItems() {
+  system(CLEAR);
+  ifstream in("Bill.txt");
 
-class Bill
-{
-private:
-    string Item;
-    int Rate, Quantity;
+  if (!in) {
+    cout << "\tNo items found. The bill is empty." << endl;
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
+    return;
+  }
 
-public:
-    Bill() : Item(""), Rate(0), Quantity(0) {} // constructor
+  string line;
+  cout << left << setw(15) << "Item" << setw(10) << "Rate" << setw(10)
+       << "Quantity" << endl;
+  cout << "------------------------------------------" << endl;
 
-    void setItem(string item)
-    {
-        Item = item;
-    }
+  while (getline(in, line)) {
+    stringstream ss(line);
+    string itemName;
+    int itemRate, itemQuant;
+    char delimiter;
 
-    void setRate(int rate)
-    {
-        Rate = rate;
-    }
+    ss >> itemName >> delimiter >> itemRate >> delimiter >> itemQuant;
+    cout << left << setw(15) << itemName << setw(10) << itemRate << setw(10)
+         << itemQuant << endl;
+  }
 
-    void setQuantity(int quantity)
-    {
-        Quantity = quantity;
-    }
-
-    string getItem() const
-    {
-        return Item;
-    }
-
-    int getRate() const
-    {
-        return Rate;
-    }
-
-    int getQuantity() const
-    {
-        return Quantity;
-    }
-};
+  in.close();
+  cout << endl << "\tEnd of list." << endl;
+  std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+}
 
 void addItem(Bill &b)
 {
@@ -68,7 +53,7 @@ void addItem(Bill &b)
 
         if (choice == 1)
         {
-            system("cls");
+            system(CLEAR);
             string item;
             int rate;
             int quantity;
@@ -110,22 +95,22 @@ void addItem(Bill &b)
                 out << "\t" << b.getItem() << " : " << b.getRate() << " : " << b.getQuantity() << endl;
                 out.close();
                 cout << "\tItem added successfully." << endl;
-                Sleep(2000);
+                std::this_thread::sleep_for(std::chrono::milliseconds(500));
             }
         }
         else if (choice == 2)
         {
-            system("cls");
+            system(CLEAR);
             close = true;
             cout << "\tClosing..." << endl;
-            Sleep(2000);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
 }
 
 void printBill()
 {
-    system("cls");
+    system(CLEAR);
 
     int count = 0;
     bool close = false;
@@ -216,12 +201,12 @@ void printBill()
         {
             close = true;
             cout << "\t Counting Total Bill..." << endl;
-            Sleep(3000);
-            system("cls");
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
+            system(CLEAR);
             cout << "\t Total Bill -------------------------- " << count << endl
                  << endl;
             cout << "\t Thanks for shopping!" << endl;
-            Sleep(5000);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
         else
         {
@@ -237,14 +222,15 @@ int main()
 
     while (!exit)
     {
-        system("cls");
+        system(CLEAR);
         int choice;
 
         cout << "\t Welcome To Super Market Billing System" << endl;
         cout << "\t****************************************" << endl;
         cout << "\t\t1. Add Item" << endl;
         cout << "\t\t2. Print Bill" << endl;
-        cout << "\t\t3. Exit" << endl;
+        cout << "\t\t3. List Items" << endl;
+        cout << "\t\t4. Exit" << endl;
         cout << "\t\tEnter Choice: ";
         cin >> choice;
 
@@ -258,9 +244,9 @@ int main()
 
         if (choice == 1)
         {
-            system("cls");
+            system(CLEAR);
             addItem(b);
-            Sleep(2000);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
         else if (choice == 2)
         {
@@ -268,11 +254,18 @@ int main()
         }
         else if (choice == 3)
         {
-            system("cls");
+            listItems();
+            cout << "\nPress Enter to continue...";
+            cin.ignore();
+            cin.get(); 
+        } 
+        else if (choice == 4) 
+        {
+            system(CLEAR);
             exit = true;
             cout << "\tExiting..." << endl;
             cout << "\t Good Luck!" << endl;
-            Sleep(2000);
+            std::this_thread::sleep_for(std::chrono::milliseconds(500));
         }
     }
 
